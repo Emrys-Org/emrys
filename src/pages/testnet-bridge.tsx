@@ -36,7 +36,7 @@ export default function TestnetBridge() {
     setIsLoading(true);
     
     try {
-      // In a real implementation, this would use the Wormhole SDK
+      // In a real implementation, this would use the Emrys SDK
       // For demo purposes, we'll simulate the steps
       setCurrentStep('Initializing Emrys cross-chain messaging');
       await simulateDelay(1000);
@@ -80,7 +80,7 @@ export default function TestnetBridge() {
     <Card className="w-100 sm:w-[31rem]">
       <div className="flex flex-col p-2">
         <h1 className="mb-4 text-2xl font-bold text-primary-500">Emrys Testnet Bridge</h1>
-        <p className="mb-6 text-sm text-gray-600">Bridge tokens from EVM chains to Solana using Wormhole</p>
+        <p className="mb-6 text-sm text-gray-600">Bridge tokens from EVM chains to Solana using Emrys</p>
         
         <div className="mb-4">
           <label className="block pl-0.5 text-sm text-gray-600">Source Chain</label>
@@ -172,7 +172,7 @@ export default function TestnetBridge() {
         
         <div className="mt-4 rounded-lg bg-gray-100 p-4 text-xs text-gray-600">
           <p className="font-medium">⚠️ Testnet Only</p>
-          <p className="mt-1">This bridge uses Wormhole protocol on testnet. Tokens sent are not real assets.</p>
+          <p className="mt-1">This bridge uses Emrys protocol on testnet. Tokens sent are not real assets.</p>
         </div>
       </div>
     </Card>
