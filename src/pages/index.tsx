@@ -1,13 +1,25 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { SolidButton } from '../components/buttons/SolidButton';
 import { APP_DESCRIPTION, APP_NAME } from '../consts/app';
 
 const Home: NextPage = () => {
   const router = useRouter();
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleStartBridging = () => {
-    router.push('/bridge');
+    setShowDropdown(!showDropdown);
+  };
+
+  const navigateToBridge = (network: string) => {
+    if (network === 'mainnet') {
+      router.push('/bridge');
+    } else {
+      // For testnet, you can define a different route if needed
+      router.push('/bridge?network=testnet');
+    }
+    setShowDropdown(false);
   };
 
   return (
@@ -35,7 +47,7 @@ const Home: NextPage = () => {
           </ul>
         </div>
         
-        <div className="mt-10">
+        <div className="mt-10 relative">
           <SolidButton 
             onClick={handleStartBridging}
             className="px-8 py-3 text-lg font-medium transition-all duration-300 hover:scale-105"
@@ -43,6 +55,25 @@ const Home: NextPage = () => {
           >
             Start Bridging
           </SolidButton>
+          
+          {showDropdown && (
+            <div className="absolute mt-2 w-full rounded-md shadow-lg bg-white overflow-hidden z-10">
+              <div className="py-1">
+                <button
+                  onClick={() => navigateToBridge('mainnet')}
+                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Bridge on Mainnet
+                </button>
+                <button
+                  onClick={() => navigateToBridge('testnet')}
+                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Bridge on Testnet
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
