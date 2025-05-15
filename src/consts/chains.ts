@@ -1,16 +1,17 @@
 import {
   eclipsemainnet,
   eclipsemainnetAddresses,
+  evmos,
+  evmosAddresses,
   solanadevnet,
   solanatestnetAddresses,
   sonicsvmtestnet,
   sonicsvmtestnetAddresses,
   soon,
   soonAddresses,
-  evmos,
-  evmosAddresses,
 } from '@hyperlane-xyz/registry';
 import { ChainMap, ChainMetadata } from '@hyperlane-xyz/sdk';
+// import { ProtocolType } from '@hyperlane-xyz/utils';
 
 // A map of chain names to ChainMetadata
 // Chains can be defined here, in chains.json, or in chains.yaml
@@ -38,6 +39,31 @@ export const chains: ChainMap<ChainMetadata & { mailbox?: Address }> = {
     ...evmos,
     mailbox: evmosAddresses.mailbox,
   },
+
+  // eclipsetestnetv: {
+  //   protocol: ProtocolType.Sealevel,
+  //   chainId: 239092742,
+  //   domainId: 239092742,
+  //   name: 'eclipsetestnet',
+  //   displayName: 'Eclipse Testnet',
+  //   nativeToken: { name: 'Ether', symbol: 'ETH', decimals: 9 },
+  //   rpcUrls: [{ http: 'https://testnet.dev2.eclipsenetwork.xyz' }],
+  //   blockExplorers: [
+  //     {
+  //       name: 'MyCustomScan',
+  //       url: 'https://explorer.dev.eclipsenetwork.xyz/?cluster=testnet',
+  //       apiUrl: 'https://api.mycustomchain-scan.com/api',
+  //       family: ExplorerFamily.Etherscan,
+  //     },
+  //   ],
+  //   blocks: {
+  //     confirmations: 1,
+  //     reorgPeriod: 0,
+  //     estimateBlockTime: 0.4,
+  //   },
+  //   logoURI: '/logo.svg',
+  // },
+
   // mycustomchain: {
   //   protocol: ProtocolType.Ethereum,
   //   chainId: 123123,

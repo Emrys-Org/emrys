@@ -1,5 +1,5 @@
-
-import { HistoryIcon, IconButton, useModal } from '@hyperlane-xyz/widgets';
+import { HistoryIcon, IconButton, PlusIcon, useModal } from '@hyperlane-xyz/widgets';
+import { config } from '../../consts/config';
 import { useStore } from '../../features/store';
 import { AddWarpConfigModal } from '../../features/warpCore/AddWarpConfigModal';
 import { Color } from '../../styles/Color';
@@ -26,7 +26,7 @@ export function FloatingButtonStrip() {
         >
           <HistoryIcon color={Color.primary['500']} height={22} width={22} />
         </IconButton>
-        {/* {config.showAddRouteButton && (
+        {config.showAddRouteButton && (
           <IconButton
             className={styles.roundedCircle}
             title="Add route"
@@ -34,7 +34,7 @@ export function FloatingButtonStrip() {
           >
             <PlusIcon color={Color.primary['500']} height={26} width={26} />
           </IconButton>
-        )} */}
+        )}
         {/* <Link
           href={links.warpDocs}
           target="_blank"

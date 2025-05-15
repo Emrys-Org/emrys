@@ -2,9 +2,7 @@ import { IRegistry, chainMetadata as publishedChainMetadata } from '@hyperlane-x
 import {
   ChainMap,
   ChainMetadata,
-  ChainMetadataSchema,
-  mergeChainMetadataMap,
-  RpcUrlSchema,
+  mergeChainMetadataMap
 } from '@hyperlane-xyz/sdk';
 import {
   objFilter,
@@ -26,7 +24,7 @@ export async function assembleChainMetadata(
   storeMetadataOverrides?: ChainMap<Partial<ChainMetadata | undefined>>,
 ) {
   // Chains must include a cosmos chain or CosmosKit throws errors
-  const result = z.record(ChainMetadataSchema).safeParse({
+  const result = z.record(z.any()).safeParse({
     ...ChainsYaml,
     ...ChainsTS,
   });
@@ -64,7 +62,7 @@ export async function assembleChainMetadata(
 
   const parsedRpcOverridesResult = tryParseJsonOrYaml(config.rpcOverrides);
   const rpcOverrides = z
-    .record(RpcUrlSchema)
+    .record(z.any())
     .safeParse(parsedRpcOverridesResult.success && parsedRpcOverridesResult.data);
   if (config.rpcOverrides && !rpcOverrides.success) {
     logger.warn('Invalid RPC overrides config', rpcOverrides.error);
