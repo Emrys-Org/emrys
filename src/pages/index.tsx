@@ -23,7 +23,7 @@ const Home: NextPage = () => {
         
         <div className="mt-8 max-w-2xl">
           <p className="mb-6 text-lg text-white/80">
-            Emrys is a powerful cross-chain bridge powered by Hyperlane's secure interoperability protocol. 
+            Emrys is a powerful cross-chain bridge powered by our own forked version of SVM & IBC implementation. 
             Seamlessly transfer tokens between different blockchains with minimal fees and maximum security.
           </p>
           
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
             <li>Fast, secure transfers between multiple chains</li>
             <li>Support for native tokens and popular standards</li>
             <li>Simple, user-friendly interface</li>
-            <li>Powered by Hyperlane's battle-tested infrastructure</li>
+            <li>Powered by our own forked version of SVM & IBC implementation</li>
           </ul>
         </div>
         
