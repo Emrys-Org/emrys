@@ -10,7 +10,6 @@ export default function TestnetBridge() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState('');
   const [sourceChain, setSourceChain] = useState('Avalanche');
-  const [targetChain, setTargetChain] = useState('Solana');
   
   // List of available EVM chains for source
   const sourceChains = ['Ethereum', 'Avalanche', 'Polygon', 'BSC'];
