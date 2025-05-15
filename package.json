@@ -85,6 +85,9 @@
   "main": "dist/src/index.js",
   "packageManager": "yarn@4.5.0",
   "private": true,
+  "workspaces": [
+    "utxo-layer"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/hyperlane-xyz/hyperlane-warp-ui-template"
