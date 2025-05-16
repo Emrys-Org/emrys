@@ -90,8 +90,36 @@ const Home: NextPage = () => {
         </div>
       </div>
       
+      {/* Walrus Decentralized Storage Section */}
+      <div className="w-full max-w-3xl mt-16">
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+          <h2 className="text-2xl font-bold text-white mb-3">Powered by Walrus Decentralized Storage</h2>
+          <p className="text-white/80 mb-4">
+            Emrys integrates with Walrus, a next-generation decentralized storage solution that ensures your transaction data 
+            remains secure, immutable, and accessible across multiple networks.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-white/90">
+            <div className="bg-primary-600/40 p-4 rounded-lg">
+              <h3 className="font-semibold mb-2">Secure Storage</h3>
+              <p className="text-sm">Your cross-chain transaction data is encrypted and stored across a distributed network.</p>
+            </div>
+            <div className="bg-primary-600/40 p-4 rounded-lg">
+              <h3 className="font-semibold mb-2">Data Permanence</h3>
+              <p className="text-sm">Never lose access to your transaction history with permanent on-chain storage.</p>
+            </div>
+            <div className="bg-primary-600/40 p-4 rounded-lg">
+              <h3 className="font-semibold mb-2">Rapid Retrieval</h3>
+              <p className="text-sm">Access your data instantly across any supported blockchain network.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div className="w-full mt-16 pb-10">
         <h2 className="text-2xl font-bold text-white mb-6">Have Questions? Ask Our AI Assistant</h2>
+        <p className="text-white/80 mb-6">
+          Powered by <span className="font-semibold">fetch.ai uAgents</span> - Our intelligent assistant can answer all your questions about Emrys.
+        </p>
         <FaqChat />
       </div>
     </div>

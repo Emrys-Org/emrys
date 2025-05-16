@@ -31,12 +31,24 @@ const faqData = [
   {
     question: "How long do transfers take?",
     answer: "Transfer times vary depending on the chains involved. Most transfers complete within a few minutes, but some may take longer depending on network conditions."
+  },
+  {
+    question: "What is Walrus storage?",
+    answer: "Walrus is our decentralized storage solution that securely stores transaction data across multiple networks. It ensures your cross-chain transaction data remains secure, immutable, and easily accessible at all times."
+  },
+  {
+    question: "How does Walrus work?",
+    answer: "Walrus utilizes a distributed network to store encrypted fragments of your transaction data across multiple nodes. This ensures data permanence, security, and rapid retrieval regardless of which blockchain you're accessing it from."
+  },
+  {
+    question: "What technology powers this chat assistant?",
+    answer: "This chat assistant is powered by fetch.ai uAgents, an advanced AI framework that enables intelligent, autonomous interactions. The uAgents technology allows for context-aware responses and intelligent query handling."
   }
 ];
 
 export default function FaqChat() {
   const [messages, setMessages] = useState<Message[]>([
-    { id: 1, text: "👋 Hi there! I'm Emrys Assistant. How can I help you today?", isUser: false }
+    { id: 1, text: "👋 Hi there! I'm Emrys Assistant powered by fetch.ai uAgents. How can I help you today?", isUser: false }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [suggestedQuestions, setSuggestedQuestions] = useState(faqData.map(item => item.question));
@@ -96,6 +108,20 @@ export default function FaqChat() {
       lowerQuestion.includes('send')
     ) {
       addMessage("Emrys makes it easy to bridge tokens between chains. Just click 'Start Bridging' at the top and select your preferred network.", false);
+    } else if (
+      lowerQuestion.includes('walrus') || 
+      lowerQuestion.includes('storage') || 
+      lowerQuestion.includes('store')
+    ) {
+      addMessage("Emrys uses Walrus decentralized storage to securely store your transaction data across multiple networks. This ensures your data remains secure, immutable, and easily accessible regardless of which blockchain you're using.", false);
+    } else if (
+      lowerQuestion.includes('fetch') || 
+      lowerQuestion.includes('agent') || 
+      lowerQuestion.includes('uagent') ||
+      lowerQuestion.includes('ai') ||
+      lowerQuestion.includes('chat')
+    ) {
+      addMessage("This chat assistant is powered by fetch.ai uAgents technology, which provides intelligent, context-aware interactions. It allows me to understand your questions and provide relevant information about Emrys.", false);
     } else {
       // Try to find the most relevant FAQ
       const relevantFaqs = faqData.filter(item => {
@@ -127,7 +153,7 @@ export default function FaqChat() {
       <div className="flex flex-col h-96">
         <div className="flex items-center p-3 bg-primary-500 text-white">
           <div className="w-3 h-3 rounded-full bg-green-400 mr-2"></div>
-          <h3 className="font-medium">Emrys FAQ Assistant</h3>
+          <h3 className="font-medium">Emrys FAQ Assistant <span className="text-xs opacity-75">(Powered by fetch.ai uAgents)</span></h3>
         </div>
         
         <div className="flex-1 p-4 overflow-y-auto">
@@ -164,6 +190,18 @@ export default function FaqChat() {
                     {question}
                   </button>
                 ))}
+                <button
+                  onClick={() => handleQuestionClick("What is Walrus storage?")}
+                  className="text-sm bg-gray-100 hover:bg-gray-200 rounded-full px-3 py-1 text-gray-700 transition-colors"
+                >
+                  What is Walrus storage?
+                </button>
+                <button
+                  onClick={() => handleQuestionClick("What technology powers this chat assistant?")}
+                  className="text-sm bg-gray-100 hover:bg-gray-200 rounded-full px-3 py-1 text-gray-700 transition-colors"
+                >
+                  About this AI assistant
+                </button>
               </div>
             </div>
           )}
