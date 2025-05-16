@@ -15,9 +15,7 @@ const Home: NextPage = () => {
 
   const navigateToBridge = (network: string) => {
     if (network === 'utxo') {
-      window.open('https://google.com', '_blank');
-      setShowDropdown(false);
-      return;
+      router.push('/bitcoin-bridge')
     }
     
     if (network === 'mainnet') {

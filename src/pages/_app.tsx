@@ -1,3 +1,5 @@
+import '@/styles/design-system.css';
+import '@/styles/globals.scss';
 import { useIsSsr } from '@hyperlane-xyz/widgets';
 import '@hyperlane-xyz/widgets/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -16,7 +18,6 @@ import { StarknetWalletContext } from '../features/wallet/context/StarknetWallet
 import '../styles/globals.css';
 import '../vendor/inpage-metamask';
 import '../vendor/polyfill';
-
 const reactQueryClient = new QueryClient({
   defaultOptions: {
     queries: {
