@@ -13,6 +13,12 @@ const Home: NextPage = () => {
   };
 
   const navigateToBridge = (network: string) => {
+    if (network === 'utxo') {
+      window.open('https://google.com', '_blank');
+      setShowDropdown(false);
+      return;
+    }
+    
     if (network === 'mainnet') {
       router.push('/bridge');
     } else {
@@ -70,6 +76,12 @@ const Home: NextPage = () => {
                   className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Bridge on Testnet
+                </button>
+                <button
+                  onClick={() => navigateToBridge('utxo')}
+                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  ZPL UTXO Bridge
                 </button>
               </div>
             </div>
