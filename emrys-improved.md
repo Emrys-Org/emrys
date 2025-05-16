@@ -83,12 +83,45 @@ Key features of the testnet:
 
 ### ZPL UTXO Bridge
 
-Our experimental UTXO bridge (currently in development) will support:
+The ZPL UTXO Bridge is a sophisticated cross-chain solution that enables secure and efficient movement of assets between UTXO-based blockchains (like Bitcoin, Dogecoin, and Litecoin) and Solana's account-based system. This comprehensive bridge implements a two-way peg mechanism allowing users to deposit, withdraw, and manage assets across fundamentally different blockchain architectures.
 
-- Bitcoin-based chains
-- UTXO model compatibility
-- Privacy-preserving transfers
-- Lightning Network integration potential
+#### Key Features
+
+- **Cross-Chain Asset Movement**: Deposit BTC/DOGE/LTC and receive wrapped assets (zBTC/zDOGE/zLTC) on Solana
+- **Two-Way Peg**: Fully redeemable assets with bidirectional movement
+- **Hot/Cold Reserve System**: Advanced security architecture for asset management
+- **Multi-Wallet Support**: Integrates with various Bitcoin wallets
+- **Multi-Cryptocurrency Support**: Works with Bitcoin, Dogecoin, and Litecoin
+- **Portfolio Management**: Track and manage your cross-chain assets
+- **Transaction History**: View and track all cross-chain operations
+
+#### Technical Implementation
+
+The UTXO Bridge implements sophisticated UTXO management:
+
+- **UTXO Selection**: Intelligent selection of UTXOs for optimal transaction fees
+- **Dust Management**: Proper handling of dust amounts to prevent stuck funds
+- **Fee Estimation**: Dynamic fee calculation based on network conditions
+- **P2TR Support**: Native support for Pay-to-Taproot addresses
+- **Transaction Construction**: Building, signing, and broadcasting transactions
+
+#### Security Model
+
+- **Hot Reserve**: For regular deposit/withdrawal operations with time-locked scripts
+- **Cold Reserve**: For secure long-term asset storage with recovery parameters
+- **Guardian System**: Monitors and secures cross-chain operations
+- **Time-Locked Scripts**: Provides security for user funds with specified unlock heights
+- **IBC Module**: Handles inter-blockchain communication with light clients and packet verification
+
+#### ZPL Client Functions
+
+The ZPL (UTXO Layer Protocol) Client provides core functionality:
+
+- **Reserve Management**: Managing hot and cold reserves for different cryptocurrencies
+- **Account Services**: Creating and managing user accounts and positions
+- **Instruction Construction**: Building Solana program instructions for all operations
+- **Transaction Signing**: Handling transaction signing and submission
+- **Position Tracking**: Monitoring user positions and balances
 
 ## Frontend Architecture
 
@@ -107,34 +140,6 @@ Emrys uses a modern React-based frontend with:
 - OFAC compliance checks
 - Multi-stage approval process
 - Audit trail via Walrus storage
-
-## WalletConnect Integration
-
-Emrys provides a seamless wallet connection experience through WalletConnect integration:
-
-- **Multi-protocol support**: Connect wallets across EVM, Cosmos, Solana, and Starknet ecosystems
-- **Wide wallet compatibility**:
-  - EVM chains: MetaMask, Coinbase Wallet, Rainbow, Trust Wallet, Ledger, and more
-  - Cosmos chains: Keplr, Cosmostation, Leap
-  - Solana: Phantom, Solflare, Snap Wallet, Trust Wallet
-  - Starknet: Supported via StarknetConfig
-- **Mobile and desktop compatibility**: Consistent connection experience across devices
-- **QR code and deep linking**: Easy connection methods for mobile users
-- **Session management**: Persistent connections with customizable timeouts
-- **Chain switching**: Seamless switching between supported blockchains
-
-## Mainnet Deployment
-
-Emrys is production-ready with robust mainnet deployment features:
-
-- **Production chain configurations**: Pre-configured mainnet settings for Solana, Eclipse, EVMOS, and more
-- **Verified contract addresses**: Integration with Hyperlane registry for secure contract interactions
-- **Sanction compliance**: Real-time checking against Chainalysis and OFAC sanctions lists
-- **Gas optimization**: Production-calibrated gas settings for each supported chain
-- **Analytics and monitoring**: Production metrics through Vercel Analytics
-- **Security headers**: Advanced security configurations for production environments
-- **Dynamic RPC fallbacks**: Automatic fallback to alternate RPC endpoints for maximum reliability
-- **Cross-chain messaging security**: Production-grade verification for all cross-chain messages
 
 ## Getting Started
 
@@ -159,6 +164,25 @@ yarn install
 yarn dev
 ```
 
+## UTXO Bridge Usage
+
+### Deposit Flow
+
+1. Connect your Bitcoin and Solana wallets
+2. Select cryptocurrency type (BTC, DOGE, or LTC)
+3. Enter the amount to deposit
+4. Confirm the transaction in your wallet
+5. Once confirmed on the source chain, funds will be credited as wrapped tokens on Solana
+
+### Withdrawal Flow
+
+1. Connect your wallets
+2. Select cryptocurrency type
+3. Enter the amount to withdraw
+4. Choose a destination address
+5. Confirm the transaction with your Solana wallet
+6. Monitor the withdrawal status in the transaction history
+
 ## Documentation
 
 For more detailed documentation on each component:
@@ -168,6 +192,7 @@ For more detailed documentation on each component:
 - [Walrus Storage Integration](docs/walrus.md)
 - [Bridge Architecture](docs/bridge.md)
 - [uAgents FAQ System](docs/uagents.md)
+- [ZPL UTXO Bridge Documentation](docs/zpl-utxo.md)
 
 ## License
 
@@ -178,8 +203,9 @@ This project is licensed under the [License Name] - see the LICENSE file for det
 - The Solana team for the original SVM implementation
 - IBC Protocol developers
 - fetch.ai for uAgents technology
+- Bitcoin, Dogecoin, and Litecoin development communities
 - All contributors and community members
 
 ---
 
-***DISCLAIMER:*** *Emrys uses SVM & IBC & WALRUS for secure transactions & speed. All transactions are processed using our proprietary implementation of SVM (Solana Virtual Machine) and IBC (Inter-Blockchain Communication) protocols, with data secured through Walrus decentralized storage.* 
+***DISCLAIMER:*** *Emrys uses SVM & IBC & WALRUS for secure transactions & speed. All transactions are processed using our proprietary implementation of SVM (Solana Virtual Machine) and IBC (Inter-Blockchain Communication) protocols, with data secured through Walrus decentralized storage.*

@@ -20,14 +20,14 @@ module.exports = {
       colors: {
         black: '#010101',
         white: '#ffffff',
-        gray: { ...defaultColors.gray, '150': '#EBEDF0', '250': '#404040', '350': '#6B6B6B' },
+        gray: { ...defaultColors.gray, 150: '#EBEDF0', 250: '#404040', 350: '#6B6B6B' },
         primary: {
           50: '#E6EDF9',
           100: '#CDDCF4',
           200: '#A7C2EC',
           300: '#82A8E4',
           400: '#5385D2',
-          500: '#2764c1',
+          500: '#051531',
           600: '#1D4685',
           700: '#162A4A',
           800: '#11213B',
