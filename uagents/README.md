@@ -59,4 +59,55 @@ python uagents/agent.py
 
 ## License
 
-This project is part of the Emrys ecosystem. See the LICENSE file for details. 
+This project is part of the Emrys ecosystem. See the LICENSE file for details.
+
+# Emrys uAgents
+
+This directory contains uAgents for the Emrys platform.
+
+## Agents
+
+- **DeFi Protocol Information Agent**: Provides information about various blockchain technologies
+
+## Railway Deployment
+
+The agents can be deployed on Railway for easy hosting and scaling. 
+
+For detailed instructions on deploying to Railway, see [RAILWAY.md](RAILWAY.md).
+
+### Quick Start
+
+1. Clone this repository
+2. Navigate to the uagents directory
+3. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+4. Run the agent locally:
+   ```
+   python railway_agent.py
+   ```
+5. Test the agent:
+   ```
+   python test_agent.py
+   ```
+
+## Agent REST API
+
+The Protocol Info Agent provides the following REST endpoints:
+
+- **GET /health**: Health check endpoint
+- **GET /protocols/list**: List all available protocols
+- **POST /protocol/info**: Get information about a specific protocol
+
+Example usage:
+```bash
+# Health check
+curl http://localhost:8000/health
+
+# List protocols
+curl http://localhost:8000/protocols/list
+
+# Get info about a protocol
+curl -d '{"protocol_name": "solana"}' -H "Content-Type: application/json" -X POST http://localhost:8000/protocol/info
+``` 
