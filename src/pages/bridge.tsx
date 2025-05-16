@@ -23,8 +23,8 @@ const BridgePage: NextPage = () => {
           <TestnetBridge />
         ) : (
           <>
-            <TransferTokenCard />
-            <FloatingButtonStrip />
+        <TransferTokenCard />
+        <FloatingButtonStrip />
           </>
         )}
       </div>
