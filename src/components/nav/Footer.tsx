@@ -1,5 +1,6 @@
 import { DiscordIcon, GithubIcon, TwitterIcon } from '@hyperlane-xyz/widgets';
 // import Link from 'next/link';
+import Image from 'next/image';
 import { ReactNode } from 'react';
 import { links } from '../../consts/links';
 // import { Color } from '../../styles/Color';
@@ -44,7 +45,10 @@ function FooterLogo() {
       </div>
       <div className="ml-6 space-y-1 text-lg font-medium sm:text-xl">
         <div>Go interchain</div>
-        <div>with Emrys</div>
+        <div className="flex items-center">
+          with Emrys
+          <Image alt="emrys logo" src="/emrys-logo1.png" width={60} height={80} />
+        </div>
       </div>
     </div>
   );
