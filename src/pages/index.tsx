@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { SolidButton } from '../components/buttons/SolidButton';
+import FaqChat from '../components/faq/FaqChat';
 import { APP_DESCRIPTION, APP_NAME } from '../consts/app';
 
 const Home: NextPage = () => {
@@ -29,7 +30,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-20 text-center sm:min-h-[60vh] sm:py-0">
+    <div className="flex flex-col items-center justify-center px-6 py-10 text-center">
       <div className="max-w-3xl">
         <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
           {APP_NAME}
@@ -87,6 +88,11 @@ const Home: NextPage = () => {
             </div>
           )}
         </div>
+      </div>
+      
+      <div className="w-full mt-16 pb-10">
+        <h2 className="text-2xl font-bold text-white mb-6">Have Questions? Ask Our AI Assistant</h2>
+        <FaqChat />
       </div>
     </div>
   );
