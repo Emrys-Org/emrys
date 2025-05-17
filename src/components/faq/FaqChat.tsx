@@ -148,7 +148,6 @@ export default function FaqChat() {
             setIsLoading(false);
             return;
           } catch (error) {
-            // Continue to next potential term if this one fails
             continue;
           }
         }
