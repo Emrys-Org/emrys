@@ -1,4 +1,6 @@
+import { SpinnerIcon } from '@hyperlane-xyz/widgets';
 import { useEffect, useRef, useState } from 'react';
+import { checkUAgentHealth, fetchProtocolInfo, fetchProtocolsList } from '../../services/uAgentService';
 import { SolidButton } from '../buttons/SolidButton';
 
 type Message = {
@@ -7,6 +9,7 @@ type Message = {
   isUser: boolean;
 };
 
+// Standard FAQ data for basic questions
 const faqData = [
   {
     question: "What is Emrys?",
@@ -52,7 +55,40 @@ export default function FaqChat() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [suggestedQuestions, setSuggestedQuestions] = useState(faqData.map(item => item.question));
+  const [protocolNames, setProtocolNames] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [uAgentAvailable, setUAgentAvailable] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Check uAgent availability on component mount
+  useEffect(() => {
+    const checkAgent = async () => {
+      try {
+        const isHealthy = await checkUAgentHealth();
+        setUAgentAvailable(isHealthy);
+        
+        if (isHealthy) {
+          const protocolsData = await fetchProtocolsList();
+          // Convert the protocols object to an array of names
+          const names = Object.values(protocolsData.protocols);
+          setProtocolNames(names);
+          
+          // Add protocol-related suggested questions
+          setSuggestedQuestions(prev => [
+            ...prev,
+            "Tell me about Solana",
+            "What is SVM?",
+            "Explain IBC"
+          ]);
+        }
+      } catch (error) {
+        console.error("Error checking uAgent:", error);
+        setUAgentAvailable(false);
+      }
+    };
+    
+    checkAgent();
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -68,21 +104,7 @@ export default function FaqChat() {
 
   const handleQuestionClick = (question: string) => {
     addMessage(question, true);
-    
-    setTimeout(() => {
-      const faqItem = faqData.find(item => 
-        item.question.toLowerCase() === question.toLowerCase()
-      );
-      
-      if (faqItem) {
-        addMessage(faqItem.answer, false);
-      } else {
-        handleCustomQuestion(question);
-      }
-      
-      // Reset suggested questions after answering
-      setSuggestedQuestions(faqData.map(item => item.question));
-    }, 500);
+    processQuestion(question);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -90,11 +112,60 @@ export default function FaqChat() {
     if (!inputValue.trim()) return;
     
     addMessage(inputValue, true);
-    handleCustomQuestion(inputValue);
+    processQuestion(inputValue);
     setInputValue('');
   };
 
-  const handleCustomQuestion = (question: string) => {
+  const processQuestion = async (question: string) => {
+    setIsLoading(true);
+    
+    // First check if it's a standard FAQ question
+    const faqItem = faqData.find(item => 
+      item.question.toLowerCase() === question.toLowerCase()
+    );
+    
+    if (faqItem) {
+      setTimeout(() => {
+        addMessage(faqItem.answer, false);
+        setIsLoading(false);
+      }, 500);
+      return;
+    }
+    
+    // If uAgent is available, try to get blockchain protocol information
+    if (uAgentAvailable) {
+      try {
+        // Extract potential protocol name from question
+        const words = question.toLowerCase().split(/\s+/);
+        const potentialProtocols = words.filter(word => 
+          word.length > 2 && !["what", "how", "is", "are", "the", "a", "an", "and", "or", "but", "for", "with", "about", "tell", "me", "explain", "works"].includes(word)
+        );
+        
+        for (const term of potentialProtocols) {
+          try {
+            const info = await fetchProtocolInfo(term);
+            addMessage(info, false);
+            setIsLoading(false);
+            return;
+          } catch (error) {
+            // Continue to next potential term if this one fails
+            continue;
+          }
+        }
+        
+        // If no specific protocol found, handle as a general question
+        handleGeneralQuestion(question);
+      } catch (error) {
+        console.error("Error processing with uAgent:", error);
+        handleGeneralQuestion(question);
+      }
+    } else {
+      // Fall back to basic keyword matching if uAgent isn't available
+      handleGeneralQuestion(question);
+    }
+  };
+
+  const handleGeneralQuestion = (question: string) => {
     const lowerQuestion = question.toLowerCase();
     
     // Simple keyword matching
@@ -138,6 +209,8 @@ export default function FaqChat() {
         addMessage("I don't have specific information about that yet. You might want to check out our documentation or contact support for more details.", false);
       }
     }
+    
+    setIsLoading(false);
   };
 
   const addMessage = (text: string, isUser: boolean) => {
@@ -153,7 +226,12 @@ export default function FaqChat() {
       <div className="flex flex-col h-96">
         <div className="flex items-center p-3 bg-primary-500 text-white">
           <div className="w-3 h-3 rounded-full bg-green-400 mr-2"></div>
-          <h3 className="font-medium">Emrys FAQ Assistant <span className="text-xs opacity-75">(Powered by fetch.ai uAgents)</span></h3>
+          <h3 className="font-medium">
+            Emrys FAQ Assistant 
+            <span className="text-xs opacity-75 ml-2">
+              (Powered by fetch.ai uAgents{uAgentAvailable ? ' - Connected' : ' - Offline'})
+            </span>
+          </h3>
         </div>
         
         <div className="flex-1 p-4 overflow-y-auto">
@@ -174,6 +252,14 @@ export default function FaqChat() {
                 </div>
               </div>
             ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="flex items-center space-x-2 p-3 bg-gray-100 rounded-lg rounded-bl-none">
+                  <SpinnerIcon className="h-5 w-5 text-primary-500" />
+                  <span className="text-sm text-gray-600">Thinking...</span>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
           
@@ -181,7 +267,7 @@ export default function FaqChat() {
             <div className="mt-4">
               <p className="text-sm text-gray-500 mb-2">Suggested questions:</p>
               <div className="flex flex-wrap gap-2">
-                {suggestedQuestions.slice(0, 3).map((question, index) => (
+                {suggestedQuestions.slice(0, 5).map((question, index) => (
                   <button
                     key={index}
                     onClick={() => handleQuestionClick(question)}
@@ -196,12 +282,14 @@ export default function FaqChat() {
                 >
                   What is Walrus storage?
                 </button>
-                <button
-                  onClick={() => handleQuestionClick("What technology powers this chat assistant?")}
-                  className="text-sm bg-gray-100 hover:bg-gray-200 rounded-full px-3 py-1 text-gray-700 transition-colors"
-                >
-                  About this AI assistant
-                </button>
+                {uAgentAvailable && (
+                  <button
+                    onClick={() => handleQuestionClick("Tell me about blockchain technologies")}
+                    className="text-sm bg-gray-100 hover:bg-gray-200 rounded-full px-3 py-1 text-gray-700 transition-colors"
+                  >
+                    Blockchain technologies
+                  </button>
+                )}
               </div>
             </div>
           )}
@@ -215,9 +303,10 @@ export default function FaqChat() {
               onChange={handleInputChange}
               placeholder="Ask me anything about Emrys..."
               className="flex-1 py-2 px-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              disabled={isLoading}
             />
-            <SolidButton type="submit" color="accent" className="px-4">
-              Send
+            <SolidButton type="submit" color="accent" className="px-4" disabled={isLoading}>
+              {isLoading ? <SpinnerIcon className="h-5 w-5" /> : 'Send'}
             </SolidButton>
           </div>
         </form>

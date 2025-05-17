@@ -27,6 +27,7 @@ PORT = int(os.environ.get("PORT", 8000))
 SEED = os.environ.get("AGENT_SEED", "emrys_protocol_info_agent_seed")
 ENDPOINT = os.environ.get("AGENT_ENDPOINT", f"http://localhost:{PORT}/submit")
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
+ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "*").split(",")
 
 agent = Agent(
     name="Protocol Info Agent",
@@ -35,6 +36,23 @@ agent = Agent(
     endpoint=[ENDPOINT],
     log_level=LOG_LEVEL
 )
+
+# Configure CORS middleware for the agent
+@agent.middleware
+async def cors_middleware(request, handler):
+    """Add CORS headers to all responses."""
+    response = await handler(request)
+    
+    # Add CORS headers
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    
+    # Handle preflight requests
+    if request.method == "OPTIONS":
+        return response
+    
+    return response
 
 @agent.on_rest_get("/health", Model)
 async def handle_health_check(ctx: Context) -> Dict[str, Any]:
@@ -77,4 +95,5 @@ if __name__ == "__main__":
     print(f"Health check available at: http://localhost:{PORT}/health")
     print(f"Protocol list available at: http://localhost:{PORT}/protocols/list")
     print(f"Protocol info endpoint: http://localhost:{PORT}/protocol/info")
+    print(f"CORS is enabled for all origins")
     agent.run() 
